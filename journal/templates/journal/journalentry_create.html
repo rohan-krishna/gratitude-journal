@@ -1,0 +1,38 @@
+{% extends "journal/base.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <h4>Create A New Journal Entry <span class="badge badge-primary">{{ journal.title }}</span></h4>
+        <hr>
+
+        <form action="{% url 'journal:entry_create' journal.id %}" method="POST">
+
+        {% csrf_token %}
+
+        <h3 class="display-4">
+            <input type="text" name="title" placeholder="Entry Title is required ..." value="{{ entry.title }}" style="border: 0; width: 100%" required>
+        </h3>
+
+        <textarea name="text_body" id="myID">{{ entry.body }}</textarea>
+
+        <input type="hidden" value="{{ entry.journalbook.id }}" name="journalbook" />
+
+        <button class="btn btn-success">Create</button>
+
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block footer_scripts %}
+<script>
+    var simplemde = new SimpleMDE({ 
+        element: document.getElementById("myID"),
+        forceSync: true 
+    });
+</script>
+{% endblock footer_scripts %}

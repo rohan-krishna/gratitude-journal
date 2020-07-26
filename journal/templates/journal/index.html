@@ -1,0 +1,26 @@
+{% extends "journal/base.html" %}
+
+{% block content %}
+
+<div class="d-block pb-3 text-right">
+    <a href="{% url 'journal:create' %}" class="btn btn-success">Create New Journal</a>
+</div>
+
+<div class="row">
+    {% for journal in journals %}
+        {% if forloop.counter > 3 %}
+            <div class="col-md-4 mt-3">
+        {% else %}
+            <div class="col-md-4">
+        {% endif %}
+            <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'journal:detail' journal.id %}"><h3>{{ journal.title }}</h3></a>
+                    <p class="text-muted">{{ journal.description }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

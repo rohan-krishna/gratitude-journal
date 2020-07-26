@@ -1,0 +1,45 @@
+{% extends "journal/base.html" %}
+
+{% block content %}
+
+{% load humanize %}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0">{{ journal.title }}</h3>
+            </div>
+            <div class="card-body">
+                <pre>{{ journal.description }}</pre>
+
+                <span class="d-block">
+                    <span class="badge badge-secondary">Created At: {{ journal.created_at|naturaltime }}</span>
+                    <span class="badge badge-primary">Last Updated: {{ journal.created_at|naturaltime }}</span>
+                </span>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'journal:update' journal.id %}" class="btn btn-primary">Edit</a>
+                <a href="{% url 'journal:delete' journal.id %}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="list-group">
+            {% for entry in journal.journalbook_entries.all %}
+                <a href="{% url 'journal:entry_detail' entry.id %}" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-0">{{ entry.title }}</h5>
+                        <small class="align-self-center">{{ entry.updated_at|naturaltime }}</small>
+                    </div>
+                </a>
+            {% endfor %}
+
+        </div>
+        
+        <a href="{% url 'journal:entry_create' journal.id %}" class="btn btn-success mt-3">Add New Entry</a>
+    </div>
+</div>
+
+{% endblock content %}

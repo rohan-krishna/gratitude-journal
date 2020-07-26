@@ -1,0 +1,35 @@
+{% extends "journal/base.html" %}
+
+{% load humanize %}
+
+{% block content %}
+
+<form action="{% url 'journal:entry_update' entry.id %}" method="POST">
+
+{% csrf_token %}
+
+<h3 class="display-3">
+    <input type="text" name="title" placeholder="Entry Title is required ..." value="{{ entry.title }}" style="border: 0; width: 100%">
+</h3>
+
+<textarea name="text_body" id="myID">{{ entry.body }}</textarea>
+
+<input type="hidden" value="{{ entry.journalbook.id }}" name="journalbook" />
+
+<a href="{% url 'journal:detail' entry.journalbook.id %}" class="btn btn-success">&larr; Go back to Journal</a>
+
+<button class="btn btn-primary">Update</button>
+<a href="{% url 'journal:entry_delete' entry.id %}" class="btn btn-danger">Delete</a>
+
+</form>
+
+{% endblock content %}
+
+{% block footer_scripts %}
+<script>
+    var simplemde = new SimpleMDE({ 
+        element: document.getElementById("myID"),
+        forceSync: true 
+    });
+</script>
+{% endblock footer_scripts %}
